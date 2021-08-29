@@ -31,7 +31,7 @@ const Current = () => {
     const [error, setError] =useState(false)
 
     const fetchApi = async () => {
-        
+
     }
 
 
@@ -39,17 +39,47 @@ const Current = () => {
         axios.get<DataType>(`https://api.coindesk.com/v1/bpi/currentprice/thb.json`)
         .then((resp: AxiosResponse<DataType>) => {
             setData(resp.data)
+            setloading(false)
+        })
+        .catch(err => {
+            setloading(false)
+            setError(true)
         })
     }, [])
+
+    const render = () => {
+        if (loading){
+            return (
+                <div className='text-center space-y-3'>
+                <p className='text-2xl font-semibold'>Current price</p>
+                <p className='text-2xl'>Loading ...</p>
+              </div>
+               )
+        }
+        else if (error){
+            return(
+                <div className='text-center space-y-3'>
+        <p className='text-2xl font-semibold'>Current price</p>
+        <p className='text-2xl'>There was some error !!</p>
+      </div>
+            )
+        }
+        else{
+            return(
+                <div className='text-center space-y-3'>
+        <p className='text-2xl font-semibold'>Current price</p>
+        <p className='text-2xl'>{data?.bpi.THB.rate_float.toLocaleString()} THB</p>
+        <p> (Last updated {data?.time.updated}) </p>
+      </div> 
+            )
+        }
+    }
     
 
     return(
-        <div className='text-center space-y-3'>
-        <p className='text-2xl font-semibold'>Current price</p>
-        <p className='text-2xl'>Loading ...</p>
-        <p className='text-2xl'>{(999999999).toLocaleString()} THB</p>
-        <p> (Last updated) </p>
-      </div>
+        <div>
+            {render()}
+        </div>
     )
 }
 
