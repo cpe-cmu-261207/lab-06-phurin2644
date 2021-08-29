@@ -25,8 +25,8 @@ function App() {
           <Select />
         </Route>
 
-         {/* template for /history/show */}
-        <Route path='/history/show'>
+         {/* template for /history/result */}
+        <Route path='/history/result'>
           <Show />
         </Route>
 
